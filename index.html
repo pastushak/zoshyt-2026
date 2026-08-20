@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Зошит — прототип</title>
+<title>Зошит</title>
 <style>
   :root{
-    --ink:#1b2a4a;          /* темно-синє чорнило */
+    --ink:#1b2a4a;
     --ink-soft:#3d5279;
-    --paper:#fbfaf6;        /* колір паперу */
-    --line:#c9d6e8;         /* блакитна лінія клітинки */
+    --paper:#fbfaf6;
+    --line:#c9d6e8;
     --line-strong:#a9bcd8;
-    --margin:#d98b7c;       /* червоне поле зошита */
-    --accent:#2f6b4f;       /* зелений — зараховано */
+    --margin:#d98b7c;
+    --accent:#2f6b4f;
     --accent-soft:#e4f0e9;
-    --warn:#b4632a;         /* бурштин — на доопрацювання */
+    --warn:#b4632a;
     --warn-soft:#f6e9dd;
-    --pending:#7a6a3f;      /* очікує */
+    --pending:#7a6a3f;
     --pending-soft:#f2edda;
     --card:#ffffff;
     --shadow:0 1px 3px rgba(27,42,74,.08),0 6px 20px rgba(27,42,74,.06);
@@ -33,72 +33,72 @@
     min-height:100vh;
     font-size:16px;
     line-height:1.45;
-    padding-bottom:80px;
   }
   h1,h2,h3{font-family:Georgia,'Times New Roman',serif;font-weight:600;margin:0}
   .wrap{max-width:640px;margin:0 auto;padding:0 14px}
 
-  /* ── Верхня шапка ── */
-  header{
-    position:sticky;top:0;z-index:40;
-    background:rgba(251,250,246,.94);
-    backdrop-filter:blur(8px);
-    border-bottom:2px solid var(--line-strong);
-  }
+  /* ── ЕКРАН ВХОДУ ── */
+  #login-screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 18px}
+  .login-card{background:var(--card);border-radius:18px;box-shadow:var(--shadow);border:1px solid #eef1f6;
+    width:100%;max-width:400px;padding:30px 26px;position:relative;overflow:hidden}
+  .login-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--margin)}
+  .login-brand{font-family:Georgia,serif;font-size:32px;font-weight:700;letter-spacing:-.5px;display:flex;align-items:center;gap:11px;margin-bottom:4px}
+  .login-brand .dot{width:13px;height:13px;border-radius:50%;background:var(--margin);box-shadow:0 0 0 4px #f3d9d2}
+  .login-sub{font-size:14px;color:var(--ink-soft);margin-bottom:24px}
+  .login-label{font-size:12.5px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.1em;margin:14px 0 6px;display:block}
+  #login-screen input{width:100%;border:1.5px solid var(--line-strong);border-radius:11px;padding:13px 14px;
+    font-size:16px;font-family:inherit;color:var(--ink);background:#fdfdfb}
+  #login-screen input:focus{outline:none;border-color:var(--ink);background:#fff}
+  .login-btn{width:100%;border:none;border-radius:12px;background:var(--ink);color:#fff;font-size:16px;font-weight:600;
+    padding:14px;margin-top:22px;cursor:pointer;font-family:inherit;transition:.15s}
+  .login-btn:active{background:#0f1c36}
+  .login-btn:disabled{opacity:.55;cursor:not-allowed}
+  .login-err{background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:11px 13px;font-size:13.5px;
+    margin-top:16px;display:none;line-height:1.5}
+  .login-err.show{display:block}
+  .login-hint{font-size:12px;color:var(--ink-soft);margin-top:18px;line-height:1.55;opacity:.85}
+
+  /* ── застосунок (прихований до входу) ── */
+  #app-screen{display:none;padding-bottom:80px}
+  #app-screen.show{display:block}
+
+  header{position:sticky;top:0;z-index:40;background:rgba(251,250,246,.94);backdrop-filter:blur(8px);border-bottom:2px solid var(--line-strong)}
   .topbar{display:flex;align-items:center;gap:12px;padding:10px 14px;max-width:640px;margin:0 auto}
   .brand{font-family:Georgia,serif;font-size:20px;font-weight:700;letter-spacing:-.3px;display:flex;align-items:center;gap:8px}
   .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--margin);box-shadow:0 0 0 3px #f3d9d2}
   .who{margin-left:auto;font-size:13px;color:var(--ink-soft);text-align:right;line-height:1.2}
   .who b{display:block;font-size:14px;color:var(--ink)}
+  .logout{border:1.5px solid var(--line-strong);background:var(--card);color:var(--ink-soft);border-radius:9px;
+    padding:6px 11px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;margin-left:10px}
+  .logout:active{background:#f2f5fa}
 
-  /* ── Перемикач ролей (демо) ── */
-  .roleswitch{display:flex;gap:6px;padding:8px 14px 12px;max-width:640px;margin:0 auto}
-  .roleswitch button{
-    flex:1;border:1.5px solid var(--line-strong);background:var(--card);
-    color:var(--ink-soft);padding:9px;border-radius:10px;font-size:13.5px;font-weight:600;
-    cursor:pointer;transition:.15s;
-  }
-  .roleswitch button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .demo-note{max-width:640px;margin:0 auto;padding:0 14px 6px;font-size:11.5px;color:var(--ink-soft);opacity:.75}
-
-  /* ── Загальні картки ── */
-  .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
-    border:1px solid #eef1f6;margin:12px 0;overflow:hidden}
+  .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid #eef1f6;margin:12px 0;overflow:hidden}
   .card-head{padding:14px 16px;border-bottom:1px solid #eef1f6;display:flex;align-items:center;gap:10px}
   .card-body{padding:14px 16px}
   .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-soft);font-weight:700}
-
   .section-title{display:flex;align-items:baseline;gap:10px;margin:22px 2px 4px}
   .section-title h2{font-size:20px}
   .section-title .count{font-size:12.5px;color:var(--ink-soft);margin-left:auto}
 
-  /* ── Бейджі станів ── */
-  .badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;
-    padding:3px 9px;border-radius:20px;white-space:nowrap}
+  .badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap}
   .b-pending{background:var(--pending-soft);color:var(--pending)}
   .b-ok{background:var(--accent-soft);color:var(--accent)}
   .b-warn{background:var(--warn-soft);color:var(--warn)}
   .b-ai{background:#e9eef7;color:var(--ink-soft)}
   .badge .d{width:6px;height:6px;border-radius:50%;background:currentColor}
 
-  /* ── Список учнів / робіт (вчитель) ── */
   .row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid #f0f2f6;cursor:pointer;transition:.12s}
   .row:last-child{border-bottom:none}
   .row:active{background:#f6f8fc}
-  .avatar{width:38px;height:38px;border-radius:11px;flex:none;display:grid;place-items:center;
-    font-weight:700;font-size:15px;color:#fff;font-family:Georgia,serif}
+  .avatar{width:38px;height:38px;border-radius:11px;flex:none;display:grid;place-items:center;font-weight:700;font-size:15px;color:#fff;font-family:Georgia,serif}
   .row .meta{flex:1;min-width:0}
   .row .meta .n{font-weight:600;font-size:15px}
   .row .meta .s{font-size:12.5px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .row .chev{color:var(--line-strong);font-size:20px;flex:none}
-
   .grp-pill{font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;background:#eef1f6;color:var(--ink-soft)}
   .grp-klondike{background:#f3e8f0;color:#7a3d63}
 
-  /* ── Кнопки ── */
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;
-    border:none;border-radius:11px;font-size:15px;font-weight:600;padding:12px 16px;cursor:pointer;
-    width:100%;transition:.15s;font-family:inherit}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:none;border-radius:11px;font-size:15px;font-weight:600;padding:12px 16px;cursor:pointer;width:100%;transition:.15s;font-family:inherit}
   .btn-primary{background:var(--ink);color:#fff}
   .btn-primary:active{background:#0f1c36}
   .btn-ok{background:var(--accent);color:#fff}
@@ -106,203 +106,259 @@
   .btn-ghost{background:#eef1f6;color:var(--ink)}
   .btn-row{display:flex;gap:9px}
   .btn-row .btn{width:auto;flex:1}
-  .btn:disabled{opacity:.4;cursor:not-allowed}
-  .btn-sm{padding:8px 12px;font-size:13.5px;border-radius:9px;width:auto}
 
-  /* ── Форми задач (учень) ── */
   .task{padding:15px 16px;border-bottom:1px solid #f0f2f6}
   .task:last-child{border-bottom:none}
   .task-num{font-family:Georgia,serif;font-weight:700;color:var(--margin);font-size:15px}
   .task-q{margin:3px 0 11px;font-size:15px;line-height:1.5}
-  .frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 2px;font-size:13px;line-height:1.05}
-  .frac .top{border-bottom:1.4px solid var(--ink);padding:0 3px}
-  .frac .bot{padding:0 3px}
 
-  input[type=text],input.ans{width:100%;border:1.5px solid var(--line-strong);border-radius:9px;
-    padding:11px 12px;font-size:15px;font-family:inherit;color:var(--ink);background:#fdfdfb}
+  input[type=text],input.ans{width:100%;border:1.5px solid var(--line-strong);border-radius:9px;padding:11px 12px;font-size:15px;font-family:inherit;color:var(--ink);background:#fdfdfb}
   input.ans:focus{outline:none;border-color:var(--ink);background:#fff}
   .multi-ans{display:flex;flex-wrap:wrap;gap:8px}
   .multi-ans input{flex:1;min-width:64px}
   .sub-label{font-size:12.5px;color:var(--ink-soft);font-weight:600;margin-right:2px;align-self:center}
 
-  /* варіанти А–Д */
   .opts{display:flex;flex-direction:column;gap:8px}
-  .opt{display:flex;align-items:center;gap:11px;border:1.5px solid var(--line-strong);border-radius:11px;
-    padding:11px 13px;cursor:pointer;transition:.12s;background:#fdfdfb}
+  .opt{display:flex;align-items:center;gap:11px;border:1.5px solid var(--line-strong);border-radius:11px;padding:11px 13px;cursor:pointer;transition:.12s;background:#fdfdfb}
   .opt:active{background:#f2f5fa}
   .opt.sel{border-color:var(--ink);background:#eef2fb}
-  .opt .k{width:26px;height:26px;border-radius:7px;background:#eef1f6;display:grid;place-items:center;
-    font-weight:700;font-size:14px;flex:none}
+  .opt .k{width:26px;height:26px;border-radius:7px;background:#eef1f6;display:grid;place-items:center;font-weight:700;font-size:14px;flex:none}
   .opt.sel .k{background:var(--ink);color:#fff}
 
-  /* співставлення */
   .match-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
   .match-row .lhs{flex:1;font-size:14.5px}
-  .match-row select{border:1.5px solid var(--line-strong);border-radius:9px;padding:9px;font-size:15px;
-    background:#fdfdfb;font-family:inherit;color:var(--ink);min-width:74px}
+  .match-row select{border:1.5px solid var(--line-strong);border-radius:9px;padding:9px;font-size:15px;background:#fdfdfb;font-family:inherit;color:var(--ink);min-width:74px}
 
-  /* прикріплення файлів */
-  .attach{border:1.6px dashed var(--line-strong);border-radius:12px;padding:16px;text-align:center;
-    color:var(--ink-soft);font-size:13.5px;cursor:pointer;background:#fbfcfe;transition:.15s}
+  .attach{border:1.6px dashed var(--line-strong);border-radius:12px;padding:16px;text-align:center;color:var(--ink-soft);font-size:13.5px;cursor:pointer;background:#fbfcfe;transition:.15s}
   .attach:active{background:#eef2fb;border-color:var(--ink)}
   .attach .ic{font-size:26px;display:block;margin-bottom:4px}
   .thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .thumb{width:60px;height:74px;border-radius:9px;background:linear-gradient(135deg,#e8eef7,#d6e0f0);
-    border:1px solid var(--line-strong);position:relative;display:grid;place-items:center;font-size:22px;color:var(--ink-soft)}
-  .thumb .rm{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--margin);
-    color:#fff;border:none;font-size:13px;display:grid;place-items:center;cursor:pointer}
+  .thumb{width:60px;height:74px;border-radius:9px;background:linear-gradient(135deg,#e8eef7,#d6e0f0);border:1px solid var(--line-strong);position:relative;display:grid;place-items:center;font-size:22px;color:var(--ink-soft)}
+  .thumb .rm{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--margin);color:#fff;border:none;font-size:13px;display:grid;place-items:center;cursor:pointer}
 
-  /* прогрес */
   .progress{height:8px;background:#eef1f6;border-radius:20px;overflow:hidden;margin-top:8px}
   .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#4a9c74);border-radius:20px;transition:.4s}
-
   .empty{text-align:center;padding:40px 20px;color:var(--ink-soft)}
   .empty .ic{font-size:40px;opacity:.5;margin-bottom:8px}
 
-  /* нижня навігація */
-  .tabbar{position:fixed;bottom:0;left:0;right:0;z-index:40;background:rgba(251,250,246,.96);
-    backdrop-filter:blur(8px);border-top:2px solid var(--line-strong);display:flex;max-width:640px;margin:0 auto}
-  .tabbar button{flex:1;border:none;background:none;padding:9px 4px 8px;font-size:10.5px;color:var(--ink-soft);
-    font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:inherit}
+  .tabbar{position:fixed;bottom:0;left:0;right:0;z-index:40;background:rgba(251,250,246,.96);backdrop-filter:blur(8px);border-top:2px solid var(--line-strong);display:flex;max-width:640px;margin:0 auto}
+  .tabbar button{flex:1;border:none;background:none;padding:9px 4px 8px;font-size:10.5px;color:var(--ink-soft);font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:inherit}
   .tabbar button.active{color:var(--ink)}
   .tabbar .ic{font-size:21px}
-  .tabbar button.active .ic{transform:translateY(-1px)}
 
-  /* модальне вікно перевірки */
   .sheet{position:fixed;inset:0;z-index:60;background:rgba(20,30,52,.45);display:none;align-items:flex-end}
   .sheet.open{display:flex}
-  .sheet-inner{background:var(--paper);width:100%;max-width:640px;margin:0 auto;border-radius:20px 20px 0 0;
-    max-height:92vh;overflow-y:auto;padding-bottom:24px;animation:up .25s ease}
+  .sheet-inner{background:var(--paper);width:100%;max-width:640px;margin:0 auto;border-radius:20px 20px 0 0;max-height:92vh;overflow-y:auto;padding-bottom:24px;animation:up .25s ease}
   @keyframes up{from{transform:translateY(30px);opacity:.6}to{transform:translateY(0);opacity:1}}
   .sheet-grab{width:40px;height:4px;background:var(--line-strong);border-radius:20px;margin:10px auto 4px}
   .sheet-head{padding:6px 18px 14px;border-bottom:1px solid var(--line-strong);position:sticky;top:0;background:var(--paper);z-index:2}
   .ai-box{background:#eef2fb;border:1px solid var(--line-strong);border-radius:12px;padding:13px 14px;margin:14px 0}
-  .ai-box .lbl{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;color:var(--ink-soft);
-    text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
+  .ai-box .lbl{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
   .ai-verdict{font-size:14.5px;line-height:1.55}
   .ai-verdict .flag{color:var(--warn);font-weight:600}
-  .worksheet{background:linear-gradient(135deg,#eef3fb,#dde7f5);border-radius:12px;height:190px;
-    display:grid;place-items:center;color:var(--ink-soft);font-size:13px;margin:12px 0;border:1px solid var(--line-strong)}
+  .worksheet{background:linear-gradient(135deg,#eef3fb,#dde7f5);border-radius:12px;height:190px;display:grid;place-items:center;color:var(--ink-soft);font-size:13px;margin:12px 0;border:1px solid var(--line-strong)}
   .ans-check{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px dashed #dde3ec;font-size:14.5px}
   .ans-check:last-child{border:none}
   .tick{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:13px;flex:none;color:#fff}
   .tick.y{background:var(--accent)}.tick.n{background:var(--margin)}
-  .mark-input{width:64px;border:1.5px solid var(--line-strong);border-radius:9px;padding:9px;font-size:16px;
-    text-align:center;font-weight:700;font-family:inherit;color:var(--ink)}
+  .mark-input{width:64px;border:1.5px solid var(--line-strong);border-radius:9px;padding:9px;font-size:16px;text-align:center;font-weight:700;font-family:inherit;color:var(--ink)}
 
-  .toast{position:fixed;bottom:92px;left:50%;transform:translateX(-50%) translateY(20px);
-    background:var(--ink);color:#fff;padding:11px 18px;border-radius:11px;font-size:14px;font-weight:600;
-    opacity:0;transition:.3s;z-index:80;box-shadow:var(--shadow);pointer-events:none;max-width:90%}
+  .toast{position:fixed;bottom:92px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:11px 18px;border-radius:11px;font-size:14px;font-weight:600;opacity:0;transition:.3s;z-index:80;box-shadow:var(--shadow);pointer-events:none;max-width:90%}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-  .flash{animation:flash .5s}
-  @keyframes flash{0%{background:#fff}50%{background:var(--accent-soft)}100%{background:#fff}}
-  .hidden{display:none!important}
   .stat-strip{display:flex;gap:9px;margin:4px 0 2px}
   .stat{flex:1;background:var(--card);border:1px solid #eef1f6;border-radius:12px;padding:12px;text-align:center;box-shadow:var(--shadow)}
   .stat .v{font-family:Georgia,serif;font-size:24px;font-weight:700;line-height:1}
   .stat .l{font-size:11px;color:var(--ink-soft);margin-top:4px;font-weight:600}
+
+  .boot{min-height:100vh;display:grid;place-items:center;color:var(--ink-soft);font-size:14px}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="topbar">
-    <div class="brand"><span class="dot"></span>Зошит</div>
-    <div class="who" id="who"></div>
-  </div>
-  <div class="roleswitch">
-    <button id="rs-student" class="active" onclick="setRole('student')">📓 Учень</button>
-    <button id="rs-teacher" onclick="setRole('teacher')">✎ Вчитель</button>
-  </div>
-  <div class="demo-note">Прототип на демо-даних. Перемикай ролі, щоб побачити обидві панелі. Нічого нікуди не зберігається.</div>
-</header>
+<!-- екран завантаження (поки перевіряємо сесію) -->
+<div id="boot-screen" class="boot">Завантаження…</div>
 
-<main class="wrap" id="app"></main>
+<!-- ЕКРАН ВХОДУ -->
+<div id="login-screen" style="display:none">
+  <div class="login-card">
+    <div class="login-brand"><span class="dot"></span>Зошит</div>
+    <div class="login-sub">Підготовка до НМТ · вхід</div>
 
-<nav class="tabbar" id="tabbar"></nav>
+    <label class="login-label">Логін або email</label>
+    <input id="login-id" type="text" autocomplete="username" placeholder="pupil00001 або email" autocapitalize="off" spellcheck="false">
+
+    <label class="login-label">Пароль</label>
+    <input id="login-pw" type="password" autocomplete="current-password" placeholder="••••••">
+
+    <button class="login-btn" id="login-btn" onclick="doLogin()">Увійти</button>
+    <div class="login-err" id="login-err"></div>
+
+    <div class="login-hint">Учні входять логіном (напр. <b>pupil00001</b>). Дані для входу видає вчитель.</div>
+  </div>
+</div>
+
+<!-- ЗАСТОСУНОК -->
+<div id="app-screen">
+  <header>
+    <div class="topbar">
+      <div class="brand"><span class="dot"></span>Зошит</div>
+      <div class="who" id="who"></div>
+      <button class="logout" onclick="doLogout()">Вийти</button>
+    </div>
+  </header>
+  <main class="wrap" id="app"></main>
+  <nav class="tabbar" id="tabbar"></nav>
+</div>
 
 <div class="sheet" id="sheet" onclick="if(event.target===this)closeSheet()">
   <div class="sheet-inner" id="sheet-inner"></div>
 </div>
-
 <div class="toast" id="toast"></div>
 
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* ═══════════════ ДЕМО-ДАНІ ═══════════════ */
-const groups = {
-  t1:{name:'Трійка А', tag:'реп'},
-  p1:{name:'Пара В', tag:'реп'},
-  k1:{name:'Клондайк', tag:'клондайк'}
-};
-const students = [
-  {id:'s1', name:'Костюк О.', grp:'t1', color:'#3d6bb3'},
-  {id:'s2', name:'Ферчук М.', grp:'t1', color:'#b3603d'},
-  {id:'s3', name:'Байтеміров Р.', grp:'t1', color:'#4f8a5c'},
-  {id:'s4', name:'Василик І.', grp:'p1', color:'#8a5cb3'},
-  {id:'s5', name:'Вовк Д.', grp:'p1', color:'#b33d6b'},
-  {id:'s6', name:'Оглов С.', grp:'k1', color:'#3d8ab3'},
-];
+/* ═══════════════ SUPABASE ═══════════════ */
+const SUPABASE_URL = 'https://fovxilunzybqitdsbezg.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZvdnhpbHVuenlicWl0ZHNiZXpnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxNDQwMDQsImV4cCI6MjEwMjcyMDAwNH0.3JhFd6z63j_YxspkWtkxAyX8KngRdlK018Dpe_y7xvM';
+const PUPIL_DOMAIN = '@zoshyt.local';
 
-// парні задачі §1 (реальні з посібника)
-const hwTasks = [
-  {n:'1.2', type:'list', q:'Задано числа 0; 1; 4; 5; 9; 13; 17; 22; 27; 31; 39. Вказати: <b>а)</b> прості; <b>б)</b> складені.', sub:['а)','б)']},
-  {n:'1.4', type:'list', q:'Які з чисел 7; 9; 12; 29; 31; 34; 48; 51 діляться на 2 без остачі?'},
-  {n:'1.28', type:'multi', q:'Обчислити значення виразу:', sub:['а) 6·(13−7)−15·(−2)','б) 7·(9−4)+5·(−6)','в) −3·(−6+11)+4·15','г) 3·(−17+12)+4·8']},
-  {n:'1.36', type:'multi', q:'Скоротити дроби:', sub:['а) 12/22','б) 18/48','в) 40/140']},
-];
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-const testItems = [
-  {n:1, type:'abcd', q:'Вказати правильне твердження.',
-   opts:['−7∈N','−3∈Z','6,6∈Z','0∈N','2,5∈Z']},
-  {n:3, type:'abcd', q:'Вказати значення виразу 12+48:3−8.',
-   opts:['12','18','20','22','24']},
-  {n:6, type:'abcd', q:'У класі дівчат удвічі більше, ніж хлопців. Якою може бути кількість учнів?',
-   opts:['28','26','24','22','20']},
-  {n:13, type:'match', q:'Встановити відповідність між звичайними дробами та десятковими.',
-   left:['5/4','21/20','9/8'], right:['1,25','1,375','1,125','1,05','1,75']},
-  {n:16, type:'num', q:'Із 68 жовтих і 85 червоних троянд складають букети порівну. Скільки найбільше букетів?'},
-  {n:17, type:'num', q:'Обчислити 2·(3/4)+0,48:(3/20).'},
-];
-
-// стан робіт для панелі вчителя
-let works = [
-  {id:'w1', sid:'s1', kind:'ДЗ §1', status:'pending', ai:'draft', when:'сьогодні, 14:20'},
-  {id:'w2', sid:'s2', kind:'ДЗ §1', status:'pending', ai:'flag', when:'сьогодні, 13:05'},
-  {id:'w3', sid:'s4', kind:'Тест 1', status:'pending', ai:'draft', when:'вчора, 20:41'},
-  {id:'w4', sid:'s3', kind:'ДЗ §1', status:'ok', ai:'done', when:'вчора, 18:30', mark:'10'},
-  {id:'w5', sid:'s5', kind:'Тест 1', status:'warn', ai:'done', when:'вчора, 17:12', mark:'6'},
-];
-
-/* ═══════════════ СТАН ІНТЕРФЕЙСУ ═══════════════ */
-let role='student';
-let studentTab='hw';   // hw | tests | progress
-let teacherTab='queue';// queue | students | create
-let hwAnswers={}, hwFiles={}, testAnswers={}, testFiles=0;
+let currentUser = null;   // { id, email }
+let currentProfile = null;// { login, full_name, role, ... }
 
 const $=s=>document.querySelector(s);
 const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;};
-
-function setRole(r){
-  role=r;
-  $('#rs-student').classList.toggle('active',r==='student');
-  $('#rs-teacher').classList.toggle('active',r==='teacher');
-  $('#who').innerHTML = r==='student'
-    ? '<b>Костюк О.</b>Трійка А · реп.'
-    : '<b>Роман (вчитель)</b>23 учні · 6 груп';
-  render();
-}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2000);}
 function closeSheet(){$('#sheet').classList.remove('open');}
 
-/* ═══════════════ РЕНДЕР ═══════════════ */
-function render(){
-  renderTabbar();
-  if(role==='student') renderStudent();
-  else renderTeacher();
-  window.scrollTo(0,0);
+/* показати один із трьох екранів */
+function showScreen(name){
+  $('#boot-screen').style.display = name==='boot'?'grid':'none';
+  $('#login-screen').style.display = name==='login'?'flex':'none';
+  $('#app-screen').classList.toggle('show', name==='app');
 }
 
+/* ── ВХІД ── */
+async function doLogin(){
+  const idRaw = $('#login-id').value.trim();
+  const pw = $('#login-pw').value;
+  const errBox = $('#login-err');
+  const btn = $('#login-btn');
+  errBox.classList.remove('show');
+
+  if(!idRaw || !pw){ showLoginErr('Впиши логін і пароль.'); return; }
+
+  // автовизначення: є '@' → email як є; немає → учень, дописуємо домен
+  const email = idRaw.includes('@') ? idRaw.toLowerCase() : (idRaw.toLowerCase() + PUPIL_DOMAIN);
+
+  btn.disabled = true; btn.textContent = 'Входимо…';
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
+  btn.disabled = false; btn.textContent = 'Увійти';
+
+  if(error){
+    showLoginErr('Не вдалося увійти. Перевір логін і пароль.');
+    return;
+  }
+  await afterLogin(data.user);
+}
+function showLoginErr(m){ const e=$('#login-err'); e.textContent=m; e.classList.add('show'); }
+
+async function afterLogin(user){
+  currentUser = user;
+  // тягнемо профіль (роль, ПІБ)
+  const { data: prof, error } = await sb
+    .from('profiles')
+    .select('login, full_name, group_name, source, role')
+    .eq('id', user.id)
+    .single();
+
+  if(error || !prof){
+    // профілю нема — не пускаємо, але й не ламаємось
+    showScreen('login');
+    showLoginErr('Профіль не знайдено. Зверніться до вчителя.');
+    await sb.auth.signOut();
+    return;
+  }
+  currentProfile = prof;
+  $('#login-pw').value='';
+  showScreen('app');
+  bootApp();
+}
+
+async function doLogout(){
+  await sb.auth.signOut();
+  currentUser=null; currentProfile=null;
+  showScreen('login');
+}
+
+/* при завантаженні — перевіряємо, чи є збережена сесія */
+async function init(){
+  const { data:{ session } } = await sb.auth.getSession();
+  if(session && session.user){
+    await afterLogin(session.user);
+  } else {
+    showScreen('login');
+  }
+}
+init();
+
+/* ═══════════════ ЗАСТОСУНОК (демо-наповнення поки) ═══════════════ */
+let role='student';
+let studentTab='hw';
+let teacherTab='queue';
+let hwAnswers={}, hwFiles={}, testAnswers={}, testFiles=0;
+
+// демо-дані панелей (реальні дані підключимо на Кроці 7)
+const groups = {t1:{name:'Трійка А',tag:'реп'},p1:{name:'Пара В',tag:'реп'},k1:{name:'Клондайк',tag:'клондайк'}};
+const students=[
+  {id:'s1',name:'Костюк О.',grp:'t1',color:'#3d6bb3'},{id:'s2',name:'Ферчук М.',grp:'t1',color:'#b3603d'},
+  {id:'s3',name:'Байтеміров Р.',grp:'t1',color:'#4f8a5c'},{id:'s4',name:'Василик І.',grp:'p1',color:'#8a5cb3'},
+  {id:'s5',name:'Вовк Д.',grp:'p1',color:'#b33d6b'},{id:'s6',name:'Оглов С.',grp:'k1',color:'#3d8ab3'},
+];
+const hwTasks=[
+  {n:'1.2',type:'list',q:'Задано числа 0; 1; 4; 5; 9; 13; 17; 22; 27; 31; 39. Вказати: <b>а)</b> прості; <b>б)</b> складені.',sub:['а)','б)']},
+  {n:'1.4',type:'list',q:'Які з чисел 7; 9; 12; 29; 31; 34; 48; 51 діляться на 2 без остачі?'},
+  {n:'1.28',type:'multi',q:'Обчислити значення виразу:',sub:['а) 6·(13−7)−15·(−2)','б) 7·(9−4)+5·(−6)','в) −3·(−6+11)+4·15','г) 3·(−17+12)+4·8']},
+  {n:'1.36',type:'multi',q:'Скоротити дроби:',sub:['а) 12/22','б) 18/48','в) 40/140']},
+];
+const testItems=[
+  {n:1,type:'abcd',q:'Вказати правильне твердження.',opts:['−7∈N','−3∈Z','6,6∈Z','0∈N','2,5∈Z']},
+  {n:3,type:'abcd',q:'Вказати значення виразу 12+48:3−8.',opts:['12','18','20','22','24']},
+  {n:6,type:'abcd',q:'У класі дівчат удвічі більше, ніж хлопців. Якою може бути кількість учнів?',opts:['28','26','24','22','20']},
+  {n:13,type:'match',q:'Встановити відповідність між звичайними дробами та десятковими.',left:['5/4','21/20','9/8'],right:['1,25','1,375','1,125','1,05','1,75']},
+  {n:16,type:'num',q:'Із 68 жовтих і 85 червоних троянд складають букети порівну. Скільки найбільше букетів?'},
+  {n:17,type:'num',q:'Обчислити 2·(3/4)+0,48:(3/20).'},
+];
+let works=[
+  {id:'w1',sid:'s1',kind:'ДЗ §1',status:'pending',ai:'draft',when:'сьогодні, 14:20'},
+  {id:'w2',sid:'s2',kind:'ДЗ §1',status:'pending',ai:'flag',when:'сьогодні, 13:05'},
+  {id:'w3',sid:'s4',kind:'Тест 1',status:'pending',ai:'draft',when:'вчора, 20:41'},
+  {id:'w4',sid:'s3',kind:'ДЗ §1',status:'ok',ai:'done',when:'вчора, 18:30',mark:'10'},
+  {id:'w5',sid:'s5',kind:'Тест 1',status:'warn',ai:'done',when:'вчора, 17:12',mark:'6'},
+];
+
+/* визначаємо роль із профілю й запускаємо відповідну панель */
+function bootApp(){
+  role = currentProfile.role === 'teacher' ? 'teacher' : 'student';
+  const name = currentProfile.full_name || currentProfile.login;
+  if(role==='teacher'){
+    studentTab='hw'; teacherTab='queue';
+    $('#who').innerHTML = `<b>${name}</b>вчитель`;
+  } else {
+    const grp = currentProfile.group_name || '—';
+    const src = currentProfile.source==='клондайк'?'Клондайк':'реп.';
+    $('#who').innerHTML = `<b>${name}</b>${grp} · ${src}`;
+  }
+  render();
+}
+
+function render(){
+  renderTabbar();
+  if(role==='student') renderStudent(); else renderTeacher();
+  window.scrollTo(0,0);
+}
 function renderTabbar(){
   const tb=$('#tabbar');tb.innerHTML='';
   const tabs = role==='student'
@@ -317,364 +373,159 @@ function renderTabbar(){
 }
 
 /* ─────────── УЧЕНЬ ─────────── */
-function renderStudent(){
-  const a=$('#app');a.innerHTML='';
-  if(studentTab==='hw') renderStudentHW(a);
-  else if(studentTab==='tests') renderStudentTests(a);
-  else renderStudentProgress(a);
-}
+function renderStudent(){const a=$('#app');a.innerHTML='';
+  if(studentTab==='hw')renderStudentHW(a);else if(studentTab==='tests')renderStudentTests(a);else renderStudentProgress(a);}
 
 function renderStudentHW(a){
   a.appendChild(el('div','section-title','<h2>Домашнє завдання</h2><span class="count">§1 · парні номери</span>'));
   const info=el('div','card');
-  info.innerHTML='<div class="card-body" style="padding-top:12px;padding-bottom:12px">'+
-    '<div class="eyebrow">До заняття · четвер</div>'+
-    '<div style="margin-top:4px;font-size:14px;color:var(--ink-soft)">Впиши відповіді та прикріпи фото чернетки з обчисленнями.</div>'+
-    donePill()+'</div>';
+  info.innerHTML='<div class="card-body" style="padding-top:12px;padding-bottom:12px"><div class="eyebrow">До заняття · четвер</div>'+
+    '<div style="margin-top:4px;font-size:14px;color:var(--ink-soft)">Впиши відповіді та прикріпи фото чернетки з обчисленнями.</div>'+donePill()+'</div>';
   a.appendChild(info);
-
-  const card=el('div','card');
-  hwTasks.forEach(t=>card.appendChild(renderHWTask(t)));
-  a.appendChild(card);
-
-  // прикріплення чернетки (спільне)
-  const att=el('div','card');
-  att.innerHTML='<div class="card-head"><span class="eyebrow">Чернетка виконання</span></div>';
-  const b=el('div','card-body');
-  b.appendChild(fileZone('hwglobal'));
-  att.appendChild(b);
-  a.appendChild(att);
-
+  const card=el('div','card');hwTasks.forEach(t=>card.appendChild(renderHWTask(t)));a.appendChild(card);
+  const att=el('div','card');att.innerHTML='<div class="card-head"><span class="eyebrow">Чернетка виконання</span></div>';
+  const b=el('div','card-body');b.appendChild(fileZone('hwglobal'));att.appendChild(b);a.appendChild(att);
   const submit=el('button','btn btn-primary',(hwProgress()===100?'✓ ':'')+'Здати домашку');
-  submit.style.margin='6px 0 20px';
-  submit.onclick=()=>toast('Демо: здано на перевірку вчителю');
-  a.appendChild(submit);
+  submit.style.margin='6px 0 20px';submit.onclick=()=>toast('Демо: здавання підключимо на Кроці 7');a.appendChild(submit);
 }
-
-function donePill(){
-  const p=hwProgress();
-  return `<div class="progress"><i style="width:${p}%"></i></div>`+
-    `<div style="font-size:12px;color:var(--ink-soft);margin-top:5px">Заповнено ${p}%</div>`;
-}
-function hwProgress(){
-  let tot=0,f=0;
-  hwTasks.forEach(t=>{
-    const keys=t.sub?t.sub.length:1; tot+=keys;
-    for(let i=0;i<keys;i++) if(hwAnswers[t.n+'_'+i]) f++;
-  });
-  return tot?Math.round(f/tot*100):0;
-}
-
+function donePill(){const p=hwProgress();return `<div class="progress"><i style="width:${p}%"></i></div><div style="font-size:12px;color:var(--ink-soft);margin-top:5px">Заповнено ${p}%</div>`;}
+function hwProgress(){let tot=0,f=0;hwTasks.forEach(t=>{const keys=t.sub?t.sub.length:1;tot+=keys;for(let i=0;i<keys;i++)if(hwAnswers[t.n+'_'+i])f++;});return tot?Math.round(f/tot*100):0;}
 function renderHWTask(t){
-  const w=el('div','task');
-  w.innerHTML=`<div class="task-num">№ ${t.n}</div><div class="task-q">${t.q}</div>`;
+  const w=el('div','task');w.innerHTML=`<div class="task-num">№ ${t.n}</div><div class="task-q">${t.q}</div>`;
   if(t.type==='list'){
-    if(t.sub){
-      t.sub.forEach((s,i)=>{
-        const r=el('div','multi-ans');r.style.marginBottom='8px';
-        r.innerHTML=`<span class="sub-label">${s}</span>`;
-        const inp=el('input','ans');inp.type='text';inp.placeholder='числа через кому';
-        inp.value=hwAnswers[t.n+'_'+i]||'';
-        inp.oninput=e=>{hwAnswers[t.n+'_'+i]=e.target.value;refreshDone();};
-        r.appendChild(inp);w.appendChild(r);
-      });
-    } else {
-      const inp=el('input','ans');inp.type='text';inp.placeholder='числа через кому';
-      inp.value=hwAnswers[t.n+'_0']||'';
-      inp.oninput=e=>{hwAnswers[t.n+'_0']=e.target.value;refreshDone();};
-      w.appendChild(inp);
-    }
-  } else if(t.type==='multi'){
+    if(t.sub){t.sub.forEach((s,i)=>{const r=el('div','multi-ans');r.style.marginBottom='8px';r.innerHTML=`<span class="sub-label">${s}</span>`;
+      const inp=el('input','ans');inp.type='text';inp.placeholder='числа через кому';inp.value=hwAnswers[t.n+'_'+i]||'';
+      inp.oninput=e=>{hwAnswers[t.n+'_'+i]=e.target.value;refreshDone();};r.appendChild(inp);w.appendChild(r);});
+    }else{const inp=el('input','ans');inp.type='text';inp.placeholder='числа через кому';inp.value=hwAnswers[t.n+'_0']||'';
+      inp.oninput=e=>{hwAnswers[t.n+'_0']=e.target.value;refreshDone();};w.appendChild(inp);}
+  }else if(t.type==='multi'){
     const box=el('div','');box.style.display='flex';box.style.flexDirection='column';box.style.gap='8px';
-    t.sub.forEach((s,i)=>{
-      const r=el('div','multi-ans');
-      r.innerHTML=`<span class="sub-label" style="min-width:150px;text-align:left">${s}</span>`;
-      const inp=el('input','ans');inp.type='text';inp.placeholder='=';inp.style.maxWidth='90px';
-      inp.value=hwAnswers[t.n+'_'+i]||'';
-      inp.oninput=e=>{hwAnswers[t.n+'_'+i]=e.target.value;refreshDone();};
-      r.appendChild(inp);box.appendChild(r);
-    });
+    t.sub.forEach((s,i)=>{const r=el('div','multi-ans');r.innerHTML=`<span class="sub-label" style="min-width:150px;text-align:left">${s}</span>`;
+      const inp=el('input','ans');inp.type='text';inp.placeholder='=';inp.style.maxWidth='90px';inp.value=hwAnswers[t.n+'_'+i]||'';
+      inp.oninput=e=>{hwAnswers[t.n+'_'+i]=e.target.value;refreshDone();};r.appendChild(inp);box.appendChild(r);});
     w.appendChild(box);
   }
   return w;
 }
-function refreshDone(){ /* оновлюємо лише прогрес-бар без повного ререндеру */
-  const bars=document.querySelectorAll('.progress > i');
-  if(bars[0]) bars[0].style.width=hwProgress()+'%';
-  const lbl=document.querySelector('.card-body .progress + div');
-  if(lbl) lbl.textContent='Заповнено '+hwProgress()+'%';
-}
-
+function refreshDone(){const bars=document.querySelectorAll('.progress > i');if(bars[0])bars[0].style.width=hwProgress()+'%';
+  const lbl=document.querySelector('.card-body .progress + div');if(lbl)lbl.textContent='Заповнено '+hwProgress()+'%';}
 function fileZone(key){
-  const wrap=el('div','');
-  const z=el('div','attach','<span class="ic">📎</span>Прикріпити фото / скан<br><span style="font-size:11.5px;opacity:.7">камера або галерея</span>');
+  const wrap=el('div','');const z=el('div','attach','<span class="ic">📎</span>Прикріпити фото / скан<br><span style="font-size:11.5px;opacity:.7">камера або галерея</span>');
   const th=el('div','thumbs');
-  const draw=()=>{
-    th.innerHTML='';
-    const cnt=hwFiles[key]||0;
-    for(let i=0;i<cnt;i++){
-      const t=el('div','thumb','🖼');
-      const rm=el('button','rm','×');rm.onclick=ev=>{ev.stopPropagation();hwFiles[key]--;draw();};
-      t.appendChild(rm);th.appendChild(t);
-    }
-  };
-  z.onclick=()=>{hwFiles[key]=(hwFiles[key]||0)+1;draw();toast('Демо: фото додано');};
-  wrap.appendChild(z);wrap.appendChild(th);draw();
-  return wrap;
+  const draw=()=>{th.innerHTML='';const cnt=hwFiles[key]||0;for(let i=0;i<cnt;i++){const t=el('div','thumb','🖼');
+    const rm=el('button','rm','×');rm.onclick=ev=>{ev.stopPropagation();hwFiles[key]--;draw();};t.appendChild(rm);th.appendChild(t);}};
+  z.onclick=()=>{hwFiles[key]=(hwFiles[key]||0)+1;draw();toast('Демо: сховище фото — Крок 8');};
+  wrap.appendChild(z);wrap.appendChild(th);draw();return wrap;
 }
-
 function renderStudentTests(a){
   a.appendChild(el('div','section-title','<h2>Контрольні тести</h2>'));
-  const card=el('div','card');
-  const test=el('div','');
-  test.innerHTML='<div class="card-head"><div><div class="eyebrow">Доступний</div>'+
-    '<div style="font-family:Georgia,serif;font-size:18px;font-weight:600">Тест 1 — Числові вирази</div></div>'+
-    '<span class="badge b-pending" style="margin-left:auto"><span class="d"></span>20 питань</span></div>';
+  const card=el('div','card');const test=el('div','');
+  test.innerHTML='<div class="card-head"><div><div class="eyebrow">Доступний</div><div style="font-family:Georgia,serif;font-size:18px;font-weight:600">Тест 1 — Числові вирази</div></div><span class="badge b-pending" style="margin-left:auto"><span class="d"></span>20 питань</span></div>';
   const body=el('div','card-body');
-  body.innerHTML='<div style="font-size:14px;color:var(--ink-soft);margin-bottom:12px">'+
-    'Формат НМТ: вибір А–Д, співставлення, вписування числа. Наприкінці — прикріпи фото письмових обчислень.</div>';
-  const start=el('button','btn btn-primary','▶ Почати тест');
-  start.onclick=()=>openTestSheet();
+  body.innerHTML='<div style="font-size:14px;color:var(--ink-soft);margin-bottom:12px">Формат НМТ: вибір А–Д, співставлення, вписування числа. Наприкінці — прикріпи фото письмових обчислень.</div>';
+  const start=el('button','btn btn-primary','▶ Почати тест');start.onclick=()=>openTestSheet();
   body.appendChild(start);test.appendChild(body);card.appendChild(test);a.appendChild(card);
-
-  // минулий результат
   const past=el('div','card');
-  past.innerHTML='<div class="card-body"><div class="eyebrow">Минулий результат</div>'+
-    '<div style="display:flex;align-items:center;gap:12px;margin-top:8px">'+
-    '<div style="font-family:Georgia,serif;font-size:32px;font-weight:700;color:var(--accent)">17<span style="font-size:16px;color:var(--ink-soft)">/20</span></div>'+
-    '<div style="font-size:13px;color:var(--ink-soft)">Вхідний тест · перевірено<br>Помилки: №9, №14, №18</div></div></div>';
+  past.innerHTML='<div class="card-body"><div class="eyebrow">Минулий результат</div><div style="display:flex;align-items:center;gap:12px;margin-top:8px"><div style="font-family:Georgia,serif;font-size:32px;font-weight:700;color:var(--accent)">17<span style="font-size:16px;color:var(--ink-soft)">/20</span></div><div style="font-size:13px;color:var(--ink-soft)">Вхідний тест · перевірено<br>Помилки: №9, №14, №18</div></div></div>';
   a.appendChild(past);
 }
-
 function openTestSheet(){
-  testAnswers={};testFiles=0;
-  const inner=$('#sheet-inner');
-  let html='<div class="sheet-grab"></div>'+
-    '<div class="sheet-head"><h2 style="font-size:19px">Тест 1</h2>'+
-    '<div style="font-size:12.5px;color:var(--ink-soft)">Обери / впиши відповіді</div></div>'+
-    '<div style="padding:0 16px">';
-  testItems.forEach(it=>{ html+=renderTestItem(it); });
-  html+='<div class="card" style="box-shadow:none;border:1px solid #eef1f6"><div class="card-head"><span class="eyebrow">Письмові обчислення</span></div>'+
-    '<div class="card-body"><div class="attach" onclick="testFiles++;this.querySelector(\'.cnt\').textContent=testFiles+\' фото додано\'"><span class="ic">📎</span>Прикріпити фото обчислень<br><span class="cnt" style="font-size:11.5px;opacity:.7">0 фото додано</span></div></div></div>';
-  html+='<button class="btn btn-primary" style="margin:8px 0 20px" onclick="finishTest()">Завершити та здати</button>';
-  html+='<button class="btn btn-ghost" style="margin-bottom:24px" onclick="closeSheet()">Закрити</button></div>';
-  inner.innerHTML=html;
-  $('#sheet').classList.add('open');
-  inner.scrollTop=0;
+  testAnswers={};testFiles=0;const inner=$('#sheet-inner');
+  let html='<div class="sheet-grab"></div><div class="sheet-head"><h2 style="font-size:19px">Тест 1</h2><div style="font-size:12.5px;color:var(--ink-soft)">Обери / впиши відповіді</div></div><div style="padding:0 16px">';
+  testItems.forEach(it=>{html+=renderTestItem(it);});
+  html+='<div class="card" style="box-shadow:none;border:1px solid #eef1f6"><div class="card-head"><span class="eyebrow">Письмові обчислення</span></div><div class="card-body"><div class="attach" onclick="testFiles++;this.querySelector(\'.cnt\').textContent=testFiles+\' фото додано\'"><span class="ic">📎</span>Прикріпити фото обчислень<br><span class="cnt" style="font-size:11.5px;opacity:.7">0 фото додано</span></div></div></div>';
+  html+='<button class="btn btn-primary" style="margin:8px 0 20px" onclick="finishTest()">Завершити та здати</button><button class="btn btn-ghost" style="margin-bottom:24px" onclick="closeSheet()">Закрити</button></div>';
+  inner.innerHTML=html;$('#sheet').classList.add('open');inner.scrollTop=0;
 }
 function renderTestItem(it){
   let h=`<div class="task" style="border:none;padding:16px 0"><div class="task-num" style="color:var(--ink-soft)">№ ${it.n}</div><div class="task-q">${it.q}</div>`;
-  if(it.type==='abcd'){
-    h+='<div class="opts">';
-    const keys=['А','Б','В','Г','Д'];
-    it.opts.forEach((o,i)=>{ h+=`<div class="opt" onclick="pickOpt('${it.n}','${keys[i]}',this)"><span class="k">${keys[i]}</span><span>${o}</span></div>`; });
-    h+='</div>';
-  } else if(it.type==='num'){
-    h+=`<input class="ans" type="text" inputmode="decimal" placeholder="Відповідь" oninput="testAnswers['${it.n}']=this.value">`;
-  } else if(it.type==='match'){
-    const keys=['А','Б','В','Г','Д'];
-    it.left.forEach((l,i)=>{
-      h+=`<div class="match-row"><span class="lhs">${i+1}. ${l}</span><select onchange="testAnswers['${it.n}_${i}']=this.value"><option value="">—</option>`;
-      keys.forEach((k,j)=>{ h+=`<option value="${k}">${k}) ${it.right[j]}</option>`; });
-      h+='</select></div>';
-    });
-  }
+  if(it.type==='abcd'){h+='<div class="opts">';const keys=['А','Б','В','Г','Д'];
+    it.opts.forEach((o,i)=>{h+=`<div class="opt" onclick="pickOpt('${it.n}','${keys[i]}',this)"><span class="k">${keys[i]}</span><span>${o}</span></div>`;});h+='</div>';
+  }else if(it.type==='num'){h+=`<input class="ans" type="text" inputmode="decimal" placeholder="Відповідь" oninput="testAnswers['${it.n}']=this.value">`;
+  }else if(it.type==='match'){const keys=['А','Б','В','Г','Д'];
+    it.left.forEach((l,i)=>{h+=`<div class="match-row"><span class="lhs">${i+1}. ${l}</span><select onchange="testAnswers['${it.n}_${i}']=this.value"><option value="">—</option>`;
+      keys.forEach((k,j)=>{h+=`<option value="${k}">${k}) ${it.right[j]}</option>`;});h+='</select></div>';});}
   return h+'</div>';
 }
-function pickOpt(n,k,e){
-  testAnswers[n]=k;
-  e.parentNode.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
-  e.classList.add('sel');
-}
-function finishTest(){ closeSheet(); toast('Демо: тест здано на перевірку'); }
-
+function pickOpt(n,k,e){testAnswers[n]=k;e.parentNode.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));e.classList.add('sel');}
+function finishTest(){closeSheet();toast('Демо: здавання підключимо на Кроці 7');}
 function renderStudentProgress(a){
   a.appendChild(el('div','section-title','<h2>Мій прогрес</h2>'));
   a.appendChild(strip([['82%','Виконано ДЗ'],['4','Перевірено'],['9,2','Сер. бал']]));
   const topics=[['§1 Числові вирази',100,'ok'],['§2 Алгебраїчні вирази',60,'mid'],['§3 Лінійні рівняння',0,'none']];
   const card=el('div','card');card.style.marginTop='12px';
-  topics.forEach(([t,p,st])=>{
-    const r=el('div','task');
-    const col= st==='ok'?'var(--accent)':st==='mid'?'var(--warn)':'var(--line-strong)';
-    r.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center">
-      <span style="font-weight:600;font-size:14.5px">${t}</span>
-      <span style="font-size:13px;color:${col};font-weight:700">${p}%</span></div>
-      <div class="progress"><i style="width:${p}%;background:${col}"></i></div>`;
-    card.appendChild(r);
-  });
+  topics.forEach(([t,p,st])=>{const r=el('div','task');const col=st==='ok'?'var(--accent)':st==='mid'?'var(--warn)':'var(--line-strong)';
+    r.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:600;font-size:14.5px">${t}</span><span style="font-size:13px;color:${col};font-weight:700">${p}%</span></div><div class="progress"><i style="width:${p}%;background:${col}"></i></div>`;
+    card.appendChild(r);});
   a.appendChild(card);
 }
-function strip(items){
-  const s=el('div','stat-strip');
-  items.forEach(([v,l])=>s.appendChild(el('div','stat',`<div class="v">${v}</div><div class="l">${l}</div>`)));
-  return s;
-}
+function strip(items){const s=el('div','stat-strip');items.forEach(([v,l])=>s.appendChild(el('div','stat',`<div class="v">${v}</div><div class="l">${l}</div>`)));return s;}
 
 /* ─────────── ВЧИТЕЛЬ ─────────── */
-function renderTeacher(){
-  const a=$('#app');a.innerHTML='';
-  if(teacherTab==='queue') renderQueue(a);
-  else if(teacherTab==='students') renderStudents(a);
-  else renderCreate(a);
-}
-
+function renderTeacher(){const a=$('#app');a.innerHTML='';
+  if(teacherTab==='queue')renderQueue(a);else if(teacherTab==='students')renderStudents(a);else renderCreate(a);}
 function renderQueue(a){
   const pend=works.filter(w=>w.status==='pending');
   a.appendChild(el('div','section-title',`<h2>Черга на перевірку</h2><span class="count">${pend.length} очікує</span>`));
   a.appendChild(strip([[pend.length,'Очікує'],[works.filter(w=>w.status==='ok').length,'Зараховано'],[works.filter(w=>w.status==='warn').length,'На доопрац.']]));
-
-  if(!pend.length){
-    a.appendChild(el('div','empty','<div class="ic">✓</div>Усе перевірено. Черга порожня.'));
-  }
-  const card=el('div','card');card.style.marginTop='12px';
-  pend.forEach(w=>card.appendChild(workRow(w)));
-  if(pend.length) a.appendChild(card);
-
-  // нещодавно перевірені
+  if(!pend.length)a.appendChild(el('div','empty','<div class="ic">✓</div>Усе перевірено. Черга порожня.'));
+  const card=el('div','card');card.style.marginTop='12px';pend.forEach(w=>card.appendChild(workRow(w)));if(pend.length)a.appendChild(card);
   const done=works.filter(w=>w.status!=='pending');
-  if(done.length){
-    a.appendChild(el('div','section-title','<h2 style="font-size:16px">Нещодавно перевірені</h2>'));
-    const c2=el('div','card');
-    done.forEach(w=>c2.appendChild(workRow(w,true)));
-    a.appendChild(c2);
-  }
+  if(done.length){a.appendChild(el('div','section-title','<h2 style="font-size:16px">Нещодавно перевірені</h2>'));
+    const c2=el('div','card');done.forEach(w=>c2.appendChild(workRow(w,true)));a.appendChild(c2);}
 }
-
 function workRow(w,done){
-  const s=students.find(x=>x.id===w.sid);
-  const g=groups[s.grp];
-  const r=el('div','row');
-  const aiBadge = w.ai==='flag'
-    ? '<span class="badge b-warn"><span class="d"></span>AI: є сумнів</span>'
-    : w.ai==='draft'
-    ? '<span class="badge b-ai"><span class="d"></span>AI: чернетка готова</span>'
-    : '';
-  const stBadge = done ? (w.status==='ok'
-    ? `<span class="badge b-ok">✓ ${w.mark||''}</span>`
-    : `<span class="badge b-warn">↺ доопрац.</span>`) : '';
-  r.innerHTML=`<div class="avatar" style="background:${s.color}">${s.name[0]}</div>
-    <div class="meta"><div class="n">${s.name} <span class="grp-pill ${g.tag==='клондайк'?'grp-klondike':''}">${g.name}</span></div>
-    <div class="s">${w.kind} · ${w.when}</div>
-    <div style="margin-top:5px;display:flex;gap:6px;flex-wrap:wrap">${aiBadge}${stBadge}</div></div>
-    <div class="chev">›</div>`;
-  r.onclick=()=>openReview(w);
-  return r;
+  const s=students.find(x=>x.id===w.sid);const g=groups[s.grp];const r=el('div','row');
+  const aiBadge=w.ai==='flag'?'<span class="badge b-warn"><span class="d"></span>AI: є сумнів</span>':w.ai==='draft'?'<span class="badge b-ai"><span class="d"></span>AI: чернетка готова</span>':'';
+  const stBadge=done?(w.status==='ok'?`<span class="badge b-ok">✓ ${w.mark||''}</span>`:`<span class="badge b-warn">↺ доопрац.</span>`):'';
+  r.innerHTML=`<div class="avatar" style="background:${s.color}">${s.name[0]}</div><div class="meta"><div class="n">${s.name} <span class="grp-pill ${g.tag==='клондайк'?'grp-klondike':''}">${g.name}</span></div><div class="s">${w.kind} · ${w.when}</div><div style="margin-top:5px;display:flex;gap:6px;flex-wrap:wrap">${aiBadge}${stBadge}</div></div><div class="chev">›</div>`;
+  r.onclick=()=>openReview(w);return r;
 }
-
 function openReview(w){
-  const s=students.find(x=>x.id===w.sid);
-  const inner=$('#sheet-inner');
-  const isTest = w.kind.includes('Тест');
-  let html='<div class="sheet-grab"></div>'+
-    `<div class="sheet-head"><div style="display:flex;align-items:center;gap:10px">
-      <div class="avatar" style="background:${s.color};width:34px;height:34px">${s.name[0]}</div>
-      <div><h2 style="font-size:17px">${s.name}</h2>
-      <div style="font-size:12.5px;color:var(--ink-soft)">${w.kind} · ${w.when}</div></div></div></div>`;
+  const s=students.find(x=>x.id===w.sid);const inner=$('#sheet-inner');const isTest=w.kind.includes('Тест');
+  let html='<div class="sheet-grab"></div>'+`<div class="sheet-head"><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="background:${s.color};width:34px;height:34px">${s.name[0]}</div><div><h2 style="font-size:17px">${s.name}</h2><div style="font-size:12.5px;color:var(--ink-soft)">${w.kind} · ${w.when}</div></div></div></div>`;
   html+='<div style="padding:0 16px">';
-
-  // автоперевірені відповіді
   html+='<div class="card" style="box-shadow:none;border:1px solid #eef1f6;margin-top:14px"><div class="card-head"><span class="eyebrow">Відповіді (автозвірка)</span></div><div class="card-body" style="padding-top:6px">';
-  const demoChecks = isTest
-    ? [['№1','Б','Б',true],['№3','Г','Г',true],['№6','В','В',true],['№13','1В 2Г 3А','1В 2Д 3А',false],['№16','17','17',true]]
-    : [['1.2 а)','1,4,5,13,17,31','1,4,5,13,17,31',true],['1.2 б)','9,22,27,39','9,22,27,39',true],['1.28 а)','66','66',true],['1.28 б)','5','−5',false],['1.36 в)','2/7','2/7',true]];
-  demoChecks.forEach(([q,stu,corr,ok])=>{
-    html+=`<div class="ans-check"><span class="tick ${ok?'y':'n'}">${ok?'✓':'✕'}</span>
-      <span style="flex:1"><b>${q}</b> — ${stu}</span>${ok?'':`<span style="color:var(--margin);font-size:12.5px">треба ${corr}</span>`}</div>`;
-  });
-  const score = isTest?'4/5':'4/5';
-  html+=`<div style="margin-top:10px;font-size:13px;color:var(--ink-soft)">Збіглося ${score}. Спірні позначені — глянь чернетку.</div></div></div>`;
-
-  // чернетка (фото з Dropbox — макет)
-  html+='<div class="card" style="box-shadow:none;border:1px solid #eef1f6"><div class="card-head"><span class="eyebrow">Чернетка виконання</span><span style="margin-left:auto;font-size:12px;color:var(--ink-soft)">2 фото</span></div><div class="card-body" style="padding-top:8px">'+
-    '<div class="worksheet">📷 фото письмових обчислень<br><span style="font-size:11px">(зберігаються у твоєму Dropbox)</span></div></div></div>';
-
-  // AI-чернетка вердикту
-  const aiText = w.ai==='flag'
-    ? 'Кінцева відповідь у № 1.28 б) не збігається з ключем. На фото видно, що учень <span class="flag">втратив знак «−» при множенні −2·(−6+11)</span> — хід правильний до останнього кроку. Решта завдань виконано вірно. <br><br><b>Пропозиція:</b> на доопрацювання, вказати на знак.'
-    : 'Усі кінцеві відповіді збігаються з ключем. Записи охайні, хід послідовний, помилок не виявлено. <br><br><b>Пропозиція:</b> зарахувати, орієнтовний бал 9–10.';
-  html+=`<div class="ai-box"><div class="lbl">✦ Чернетка від AI · потребує твого підтвердження</div>
-    <div class="ai-verdict">${aiText}</div></div>`;
-  html+='<div style="font-size:11.5px;color:var(--ink-soft);text-align:center;margin:-4px 0 12px">AI лише пропонує. Рішення ухвалюєш ти — нічого не зараховується без підтвердження.</div>';
-
-  // бал + дії вчителя
-  html+='<div style="display:flex;align-items:center;gap:12px;margin:8px 0 14px"><span style="font-weight:600;font-size:14.5px">Бал:</span>'+
-    '<input class="mark-input" id="markf" type="text" inputmode="numeric" placeholder="—" value="'+(w.ai==='flag'?'':'9')+'">'+
-    '<span style="font-size:13px;color:var(--ink-soft)">із 12</span></div>';
+  const demoChecks=isTest?[['№1','Б','Б',true],['№3','Г','Г',true],['№6','В','В',true],['№13','1В 2Г 3А','1В 2Д 3А',false],['№16','17','17',true]]
+    :[['1.2 а)','1,4,5,13,17,31','1,4,5,13,17,31',true],['1.2 б)','9,22,27,39','9,22,27,39',true],['1.28 а)','66','66',true],['1.28 б)','5','−5',false],['1.36 в)','2/7','2/7',true]];
+  demoChecks.forEach(([q,stu,corr,ok])=>{html+=`<div class="ans-check"><span class="tick ${ok?'y':'n'}">${ok?'✓':'✕'}</span><span style="flex:1"><b>${q}</b> — ${stu}</span>${ok?'':`<span style="color:var(--margin);font-size:12.5px">треба ${corr}</span>`}</div>`;});
+  html+=`<div style="margin-top:10px;font-size:13px;color:var(--ink-soft)">Збіглося 4/5. Спірні позначені — глянь чернетку.</div></div></div>`;
+  html+='<div class="card" style="box-shadow:none;border:1px solid #eef1f6"><div class="card-head"><span class="eyebrow">Чернетка виконання</span><span style="margin-left:auto;font-size:12px;color:var(--ink-soft)">2 фото</span></div><div class="card-body" style="padding-top:8px"><div class="worksheet">📷 фото письмових обчислень<br><span style="font-size:11px">(зберігатимуться у твоєму Dropbox)</span></div></div></div>';
+  const aiText=w.ai==='flag'?'Кінцева відповідь у № 1.28 б) не збігається з ключем. На фото видно, що учень <span class="flag">втратив знак «−» при множенні</span> — хід правильний до останнього кроку. Решта вірно.<br><br><b>Пропозиція:</b> на доопрацювання, вказати на знак.':'Усі кінцеві відповіді збігаються з ключем. Записи охайні, хід послідовний.<br><br><b>Пропозиція:</b> зарахувати, орієнтовний бал 9–10.';
+  html+=`<div class="ai-box"><div class="lbl">✦ Чернетка від AI · потребує твого підтвердження</div><div class="ai-verdict">${aiText}</div></div>`;
+  html+='<div style="font-size:11.5px;color:var(--ink-soft);text-align:center;margin:-4px 0 12px">AI лише пропонує. Рішення ухвалюєш ти.</div>';
+  html+='<div style="display:flex;align-items:center;gap:12px;margin:8px 0 14px"><span style="font-weight:600;font-size:14.5px">Бал:</span><input class="mark-input" id="markf" type="text" inputmode="numeric" placeholder="—" value="'+(w.ai==='flag'?'':'9')+'"><span style="font-size:13px;color:var(--ink-soft)">із 12</span></div>';
   html+='<textarea id="cmt" placeholder="Коментар учневі (необовʼязково)" style="width:100%;border:1.5px solid var(--line-strong);border-radius:11px;padding:12px;font-size:14.5px;font-family:inherit;min-height:64px;color:var(--ink);background:#fdfdfb"></textarea>';
-  html+=`<div class="btn-row" style="margin:14px 0 8px">
-    <button class="btn btn-warn" onclick="decide('${w.id}','warn')">↺ На доопрацювання</button>
-    <button class="btn btn-ok" onclick="decide('${w.id}','ok')">✓ Зарахувати</button></div>`;
-  html+='<button class="btn btn-ghost" style="margin-bottom:24px" onclick="closeSheet()">Закрити без рішення</button>';
-  html+='</div>';
-  inner.innerHTML=html;
-  $('#sheet').classList.add('open');
-  inner.scrollTop=0;
+  html+=`<div class="btn-row" style="margin:14px 0 8px"><button class="btn btn-warn" onclick="decide('${w.id}','warn')">↺ На доопрацювання</button><button class="btn btn-ok" onclick="decide('${w.id}','ok')">✓ Зарахувати</button></div>`;
+  html+='<button class="btn btn-ghost" style="margin-bottom:24px" onclick="closeSheet()">Закрити без рішення</button></div>';
+  inner.innerHTML=html;$('#sheet').classList.add('open');inner.scrollTop=0;
 }
-function decide(id,status){
-  const w=works.find(x=>x.id===id);
-  w.status=status; w.ai='done';
-  w.mark = $('#markf')?$('#markf').value:'';
-  w.when='щойно';
-  closeSheet();
-  toast(status==='ok'?'Зараховано ✓':'Повернуто на доопрацювання');
-  render();
-}
-
+function decide(id,status){const w=works.find(x=>x.id===id);w.status=status;w.ai='done';w.mark=$('#markf')?$('#markf').value:'';w.when='щойно';closeSheet();toast(status==='ok'?'Зараховано ✓':'Повернуто на доопрацювання');render();}
 function renderStudents(a){
-  a.appendChild(el('div','section-title','<h2>Учні та групи</h2><span class="count">6 демо</span>'));
-  const byGrp={};
-  students.forEach(s=>{(byGrp[s.grp]=byGrp[s.grp]||[]).push(s);});
-  Object.keys(byGrp).forEach(gid=>{
-    const g=groups[gid];
+  a.appendChild(el('div','section-title','<h2>Учні та групи</h2><span class="count">демо</span>'));
+  const byGrp={};students.forEach(s=>{(byGrp[s.grp]=byGrp[s.grp]||[]).push(s);});
+  Object.keys(byGrp).forEach(gid=>{const g=groups[gid];
     a.appendChild(el('div','section-title',`<h2 style="font-size:15px">${g.name} <span class="grp-pill ${g.tag==='клондайк'?'grp-klondike':''}" style="margin-left:6px">${g.tag}</span></h2>`));
-    const card=el('div','card');
-    byGrp[gid].forEach(s=>{
-      const r=el('div','row');
-      const done=works.filter(w=>w.sid===s.id&&w.status!=='pending').length;
-      const pend=works.filter(w=>w.sid===s.id&&w.status==='pending').length;
-      r.innerHTML=`<div class="avatar" style="background:${s.color}">${s.name[0]}</div>
-        <div class="meta"><div class="n">${s.name}</div>
-        <div class="s">Перевірено: ${done} · очікує: ${pend}</div></div>
-        <div class="chev">›</div>`;
-      r.onclick=()=>toast('Демо: картка учня з історією робіт');
-      card.appendChild(r);
-    });
-    a.appendChild(card);
-  });
+    const card=el('div','card');byGrp[gid].forEach(s=>{const r=el('div','row');
+      const done=works.filter(w=>w.sid===s.id&&w.status!=='pending').length;const pend=works.filter(w=>w.sid===s.id&&w.status==='pending').length;
+      r.innerHTML=`<div class="avatar" style="background:${s.color}">${s.name[0]}</div><div class="meta"><div class="n">${s.name}</div><div class="s">Перевірено: ${done} · очікує: ${pend}</div></div><div class="chev">›</div>`;
+      r.onclick=()=>toast('Демо: картку учня підключимо пізніше');card.appendChild(r);});
+    a.appendChild(card);});
 }
-
 function renderCreate(a){
   a.appendChild(el('div','section-title','<h2>Додати завдання</h2>'));
-
-  // домашка
   const hw=el('div','card');
   hw.innerHTML='<div class="card-head"><span style="font-size:22px">📝</span><div><div style="font-family:Georgia,serif;font-size:17px;font-weight:600">Домашнє завдання</div><div style="font-size:12.5px;color:var(--ink-soft)">парні номери з посібника</div></div></div>';
   const hb=el('div','card-body');
-  hb.innerHTML='<div style="font-size:13px;color:var(--ink-soft);margin-bottom:10px">Обери параграф і встав номери завдань — система підтягне тексти й ключі.</div>'+
-    '<select style="width:100%;border:1.5px solid var(--line-strong);border-radius:10px;padding:12px;font-size:15px;font-family:inherit;background:#fdfdfb;color:var(--ink);margin-bottom:10px">'+
-    '<option>§1. Числові вирази. Арифметичні задачі</option><option>§2. Алгебраїчні вирази</option><option>§3. Лінійні рівняння…</option></select>'+
-    '<input class="ans" type="text" placeholder="Номери: 1.2, 1.4, 1.28, 1.36 …" style="margin-bottom:10px">'+
-    '<div style="display:flex;gap:8px;margin-bottom:12px"><span class="grp-pill">Трійка А</span><span class="grp-pill">Пара В</span><span class="grp-pill grp-klondike">Клондайк</span><span class="grp-pill" style="background:var(--ink);color:#fff">+ група</span></div>';
-  const b1=el('button','btn btn-primary','Призначити домашку');
-  b1.onclick=()=>toast('Демо: домашку призначено обраним групам');
-  hb.appendChild(b1);hw.appendChild(hb);a.appendChild(hw);
-
-  // тест
+  hb.innerHTML='<div style="font-size:13px;color:var(--ink-soft);margin-bottom:10px">Обери параграф і встав номери завдань.</div><select style="width:100%;border:1.5px solid var(--line-strong);border-radius:10px;padding:12px;font-size:15px;font-family:inherit;background:#fdfdfb;color:var(--ink);margin-bottom:10px"><option>§1. Числові вирази. Арифметичні задачі</option><option>§2. Алгебраїчні вирази</option></select><input class="ans" type="text" placeholder="Номери: 1.2, 1.4, 1.28, 1.36 …" style="margin-bottom:10px"><div style="display:flex;gap:8px;margin-bottom:12px"><span class="grp-pill">Трійка А</span><span class="grp-pill">Пара В</span><span class="grp-pill grp-klondike">Клондайк</span></div>';
+  const b1=el('button','btn btn-primary','Призначити домашку');b1.onclick=()=>toast('Демо: підключимо на Кроці 7');hb.appendChild(b1);hw.appendChild(hb);a.appendChild(hw);
   const tt=el('div','card');
-  tt.innerHTML='<div class="card-head"><span style="font-size:22px">⏱</span><div><div style="font-family:Georgia,serif;font-size:17px;font-weight:600">Контрольний тест</div><div style="font-size:12.5px;color:var(--ink-soft)">формат НМТ, 20 питань</div></div></div>';
+  tt.innerHTML='<div class="card-head"><span style="font-size:22px">⏱</span><div><div style="font-family:Georgia,serif;font-size:17px;font-weight:600">Контрольний тест</div><div style="font-size:12.5px;color:var(--ink-soft)">формат НМТ</div></div></div>';
   const tb=el('div','card-body');
-  tb.innerHTML='<div style="font-size:13px;color:var(--ink-soft);margin-bottom:10px">Обери готовий тест із посібника або збери власний.</div>'+
-    '<select style="width:100%;border:1.5px solid var(--line-strong);border-radius:10px;padding:12px;font-size:15px;font-family:inherit;background:#fdfdfb;color:var(--ink);margin-bottom:10px">'+
-    '<option>Тест 1 — Числові вирази</option><option>Тест 2 — Числові вирази</option><option>Власний тест…</option></select>'+
-    '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:14px"><input type="checkbox" checked style="width:18px;height:18px"> Вимагати фото обчислень</div>';
-  const b2=el('button','btn btn-primary','Призначити тест');
-  b2.onclick=()=>toast('Демо: тест призначено');
-  tb.appendChild(b2);tt.appendChild(tb);a.appendChild(tt);
-  a.appendChild(el('div','',' ')).style.height='20px';
+  tb.innerHTML='<div style="font-size:13px;color:var(--ink-soft);margin-bottom:10px">Обери готовий тест або збери власний.</div><select style="width:100%;border:1.5px solid var(--line-strong);border-radius:10px;padding:12px;font-size:15px;font-family:inherit;background:#fdfdfb;color:var(--ink);margin-bottom:10px"><option>Тест 1 — Числові вирази</option><option>Тест 2 — Числові вирази</option></select><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:14px"><input type="checkbox" checked style="width:18px;height:18px"> Вимагати фото обчислень</div>';
+  const b2=el('button','btn btn-primary','Призначити тест');b2.onclick=()=>toast('Демо: підключимо на Кроці 7');tb.appendChild(b2);tt.appendChild(tb);a.appendChild(tt);
+  const sp=el('div','');sp.style.height='20px';a.appendChild(sp);
 }
-
-/* старт */
-setRole('student');
 </script>
 </body>
 </html>
